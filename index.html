@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <!--使用提示：本源码完全开源，第57行【你的KEY】替换成你在：https://api.aa1.cn/api/wyc/key 申请的密钥即可-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>AI伪原创·在线生成 By夏柔公益</title>
+    <meta name="keywords" content="免费接口,免费API,免费服务">
+    <style>
+        body {
+            background-color: #f7f7f7;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+    <style>
+        .imagegg-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .imagegg {
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+          <div class="card-body">
+            AI在线伪原创接口，获取你的API·密钥：<a href="https://api.aa1.cn/api/wyc/key" target="_blank"> 点我申请</a>
+          </div>
+        </div>
+        <br>
+        <h2>AI伪原创页面</h2>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <form id="aiForm">
+                    <div class="form-group">
+                        <label for="apiKey">API密钥：</label>
+                        <select class="form-control" id="apiKey">
+                            <option value="你的KEY">公益API密钥</option>
+                            <option value="custom">自定义输入</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="customApiKey" style="display:none;">
+                        <label for="customApiKeyInput">自定义API密钥：</label>
+                        <input type="text" class="form-control" id="customApiKeyInput" name="token" placeholder="自定义API密钥">
+                    </div>
+                    <div class="form-group">
+                        <label for="content">原文内容：</label>
+                        <textarea class="form-control" id="content" name="content" rows="4" placeholder="在此输入原文内容"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">类型：</label>
+                        <select class="form-control" id="type" name="type">
+                            <option value="txt">txt</option>
+                        </select>
+                    </div>
+                    <!--<div class="form-group">-->
+                    <!--    <label for="language">翻译成英文：</label>-->
+                    <!--    <select class="form-control" id="language" name="language">-->
+                    <!--        <option value="0">不翻译</option>-->
+                    <!--        <option value="1">翻译成英文</option>-->
+                    <!--    </select>-->
+                    <!--</div>-->
+                    <div class="form-group">
+                        <label for="locks">锁词：</label>
+                        <input type="text" class="form-control" id="locks" name="locks" placeholder="用英文逗号分开，如：我这样想着,三天">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">伪原创标题：</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="亲爱的妈妈">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="submitRequest()">提交请求</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div id="output">
+                    <h3>API响应结果</h3>
+                        <div class="card" style="">
+                          <img src="https://tucdn.wpon.cn/2023/10/13/a020dd70ddbd0.png" class="card-img-top" alt="夏柔公益">
+                          <div class="card-body">
+                            <p class="card-text" id="responseContent">等待伪原创生成，将在这里<font color="red">生成结果</font>！</p>
+                            <button id="copyButton" class="btn btn-primary" onclick="copyToClipboard()">一键复制结果</button>
+                            <a href="http://qq.wpon.cn" class="btn btn-danger" target="_blank">联系夏柔定制</a>
+                          </div>
+                        </div>
+                </div>
+                <div class="imagegg">
+                    <a href="https://api.aa1.cn" target="_blank">
+                    <img src="https://tucdn.wpon.cn/2023/09/08/free-imgcdn-6858146585dec.png" title="wj.png" style="border-radius:10px;">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--弹窗-->
+    <script src="https://cdn.wpon.cn/js/tc.js" type="text/javascript"></script>
+
+    <script>
+        
+        document.getElementById("apiKey").addEventListener("change", function() {
+            const apiKeySelect = document.getElementById("apiKey");
+            const customApiKeyInput = document.getElementById("customApiKey");
+            if (apiKeySelect.value === "custom") {
+                customApiKeyInput.style.display = "block";
+            } else {
+                customApiKeyInput.style.display = "none";
+            }
+        });
+
+        function submitRequest() {
+            const apiKeySelect = document.getElementById("apiKey");
+            const apiKey = apiKeySelect.value === "custom" ? document.getElementById("customApiKeyInput").value : apiKeySelect.value;
+            const form = document.getElementById("aiForm");
+            const formData = new FormData(form);
+            formData.set("token", apiKey);
+            const apiUrl = "https://api.aa1.cn/api/wyc/";
+
+            fetch(apiUrl, {
+                method: "POST",
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("responseContent").textContent = '伪原创结果：' + data.data.content;
+                    toast({time: 3000, content: '成功，请查看结果！'})
+                })
+                .catch(error => {
+                    console.error(error);
+                    toast({time: 3000, content: '失败，请联系夏柔QQ：15001904'})
+                });
+        }
+        
+        function copyToClipboard() {
+            const resultText = document.getElementById("responseContent");
+            const range = document.createRange();
+            range.selectNode(resultText);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+        
+            try {
+                const successful = document.execCommand('copy');
+                const message = successful ? '复制成功！' : '复制失败，请手动复制。';
+                toast({time: 3000, content: message})
+            } catch (err) {
+                console.error('复制失败:', err);
+                alert('复制失败，请手动复制。');
+            }
+        
+            window.getSelection().removeAllRanges();
+        }
+
+    </script>
+</body>
+</html>
