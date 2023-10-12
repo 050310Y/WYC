@@ -1,7 +1,7 @@
 # 前言
 
 源码来自：夏柔公益 ，支持在线调试AI伪原创接口；
-# 无限制AI伪原创接口：[https://api.aa1.cn/special/chatgpt](https://api.aa1.cn/doc/aiwyc-aa1.html)
+# 无限制AI伪原创接口：[https://api.aa1.cn/doc/aiwyc-aa1.html](https://api.aa1.cn/doc/aiwyc-aa1.html)
 
 # 部署环境
 
